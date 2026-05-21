@@ -793,9 +793,12 @@ void MyMesh::onControlDataRecv(mesh::Packet* packet) {
       memcpy(&data[2], &tag, 4);     // include tag from request, for client to match to
       memcpy(&data[6], self_id.pub_key, PUB_KEY_SIZE);
       auto resp = createControlData(data, prefix_only ? 6 + 8 : 6 + PUB_KEY_SIZE);
-      if (resp) {
-        sendZeroHop(resp, getRetransmitDelay(resp)*4);  // apply random delay (widened x4), as multiple nodes can respond to this
-      }
+     if (resp) {
+
+  Serial.println("DISCOVERY TX BLOCKED");
+
+  _mgr->free(resp);
+}
     }
   } else if (type == CTL_TYPE_NODE_DISCOVER_RESP && packet->payload_len >= 6) {
     uint8_t node_type = packet->payload[0] & 0x0F;
