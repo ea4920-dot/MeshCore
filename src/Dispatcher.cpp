@@ -266,7 +266,7 @@ void Dispatcher::checkRecv() {
       Serial.printf("\n");
     }
     Serial.printf(
-  " TYPE=%s",
+  " TYPE=%s\n",
   getPayloadName(pkt->getPayloadType())
 );
 
