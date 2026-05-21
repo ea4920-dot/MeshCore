@@ -12,6 +12,38 @@ namespace mesh {
 #define MIN_TX_BUDGET_RESERVE_MS   100    // min budget (ms) required before allowing next TX
 #define MIN_TX_BUDGET_AIRTIME_DIV  2      // require at least 1/N of estimated airtime as budget before TX
 
+const char* getPayloadName(uint8_t type) {
+
+  switch(type) {
+
+    case PAYLOAD_TYPE_REQ:
+      return "REQ";
+
+    case PAYLOAD_TYPE_RESPONSE:
+      return "RESP";
+
+    case PAYLOAD_TYPE_TXT_MSG:
+      return "MSG";
+
+    case PAYLOAD_TYPE_ACK:
+      return "ACK";
+
+    case PAYLOAD_TYPE_GRP_TXT:
+      return "GRP_MSG";
+
+    case PAYLOAD_TYPE_GRP_DATA:
+      return "GRP_DATA";
+
+    case PAYLOAD_TYPE_ANON_REQ:
+      return "ANON";
+
+    case PAYLOAD_TYPE_PATH:
+      return "PATH";
+
+    default:
+      return "UNKNOWN";
+  }
+}
 #ifndef NOISE_FLOOR_CALIB_INTERVAL
   #define NOISE_FLOOR_CALIB_INTERVAL   2000     // 2 seconds
 #endif
@@ -233,6 +265,11 @@ void Dispatcher::checkRecv() {
     } else {
       Serial.printf("\n");
     }
+    Serial.printf(
+  " TYPE=%s",
+  getPayloadName(pkt->getPayloadType())
+);
+
     #endif
     logRx(pkt, pkt->getRawLength(), score);   // hook for custom logging
 
